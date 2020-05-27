@@ -160,7 +160,7 @@ abstract class IncomingMessage extends Message
             } else {
                 if ($name === "variable") {
                     $tmp = explode("=", $value, 2);
-                    $this->setKey($tmp[0], $tmp[1]);
+                    $this->setKey($tmp[0], $tmp[1] ?? "");
                 } else {
                     $this->setKey($name, $value);
                 }
