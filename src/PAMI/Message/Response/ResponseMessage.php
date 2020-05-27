@@ -100,6 +100,7 @@ class ResponseMessage extends IncomingMessage
             stristr($event->getEventList(), 'complete') !== false
             || stristr($event->getName(), 'complete') !== false
             || stristr($event->getName(), 'DBGetResponse') !== false
+            || stristr($event->getName(), 'FAXSession') !== false
         ) {
             $this->completed = true;
         }
@@ -137,9 +138,6 @@ class ResponseMessage extends IncomingMessage
      */
     public function isList()
     {
-        if (stristr($this->getMessage(), 'faxstats event will follow') !== false) {
-            return false;
-        }
         return (stristr($this->getKey('EventList'), 'start') !== false
             || stristr($this->getMessage(), 'follow') !== false);
     }
