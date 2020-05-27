@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A generic response message from ami.
  *
@@ -27,6 +28,7 @@
  * limitations under the License.
  *
  */
+
 namespace PAMI\Message\Response;
 
 use PAMI\Message\Message;
@@ -94,7 +96,8 @@ class ResponseMessage extends IncomingMessage
     public function addEvent(EventMessage $event)
     {
         $this->events[] = $event;
-        if (stristr($event->getEventList(), 'complete') !== false
+        if (
+            stristr($event->getEventList(), 'complete') !== false
             || stristr($event->getName(), 'complete') !== false
             || stristr($event->getName(), 'DBGetResponse') !== false
         ) {
@@ -125,16 +128,20 @@ class ResponseMessage extends IncomingMessage
     /**
      * Returns true if this response contains the key EventList with the
      * word 'start' in it. Another way is to have a Message key, like:
-     * Message: Result will follow
+     * Message: Result will follow.
+     * 
+     * Note that 'FAXStats' sends '.. will follow', but only sends a single entry,
+     * without a Complete event.
      *
      * @return boolean
      */
     public function isList()
     {
-        return
-            stristr($this->getKey('EventList'), 'start') !== false
-            || stristr($this->getMessage(), 'follow') !== false
-        ;
+        if (stristr($this->getMessage(), 'faxstats event will follow') !== false) {
+            return false;
+        }
+        return (stristr($this->getKey('EventList'), 'start') !== false
+            || stristr($this->getMessage(), 'follow') !== false);
     }
 
     /**

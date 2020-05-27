@@ -1,7 +1,7 @@
 {
-  "name": "marcelog/pami",
+  "name": "xrobau/pami",
   "type": "library",
-  "description": "Asterisk Manager Interface (AMI) client for PHP, event driven, object oriented",
+  "description": "Fork of marcelog's Asterisk Manager Interface (AMI) client for PHP, event driven, object oriented",
   "keywords": ["asterisk","ami","client","telephony","voip","event","action","manager","monitor"],
   "homepage": "http://marcelog.github.com/PAMI",
   "license": "Apache-2.0",
