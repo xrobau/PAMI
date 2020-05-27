@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A generic incoming message.
  *
@@ -26,6 +27,7 @@
  * limitations under the License.
  *
  */
+
 namespace PAMI\Message;
 
 /**
@@ -156,7 +158,12 @@ abstract class IncomingMessage extends Message
                 $value = isset($content[1]) ? trim(implode(':', $content)) : '';
                 $this->channelVariables[$chanName][$name] = $value;
             } else {
-                $this->setKey($name, $value);
+                if ($name === "variable") {
+                    $tmp = explode("=", $value, 2);
+                    $this->setKey($tmp[0], $tmp[1]);
+                } else {
+                    $this->setKey($name, $value);
+                }
             }
         }
         // https://github.com/marcelog/PAMI/issues/85
