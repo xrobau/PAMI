@@ -159,8 +159,12 @@ abstract class IncomingMessage extends Message
                 $this->channelVariables[$chanName][$name] = $value;
             } else {
                 if ($name === "variable") {
-                    $tmp = explode("=", $value, 2);
-                    $this->setKey($tmp[0], $tmp[1] ?? "");
+                    if (strpos($value, "=") !== false) {
+                        $tmp = explode("=", $value, 2);
+                        $this->setKey($tmp[0], $tmp[1] ?? "");
+                    } else {
+                        $this->setKey($name, $value);
+                    }
                 } else {
                     $this->setKey($name, $value);
                 }
