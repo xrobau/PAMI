@@ -1,4 +1,5 @@
 <?php
+
 declare(ticks=1);
 /**
  * TCP Client implementation for AMI.
@@ -28,6 +29,7 @@ declare(ticks=1);
  * limitations under the License.
  *
  */
+
 namespace PAMI\Client\Impl;
 
 use PAMI\Message\OutgoingMessage;
@@ -60,99 +62,99 @@ class ClientImpl implements IClient
      * PSR-3 logger.
      * @var LoggerInterface
      */
-    private $logger;
+    protected $logger;
 
     /**
      * Hostname
      * @var string
      */
-    private $host;
+    protected $host;
 
     /**
      * TCP Port.
      * @var integer
      */
-    private $port;
+    protected $port;
 
     /**
      * Username
      * @var string
      */
-    private $user;
+    protected $user;
 
     /**
      * Password
      * @var string
      */
-    private $pass;
+    protected $pass;
 
     /**
      * Connection timeout, in seconds.
      * @var integer
      */
-    private $cTimeout;
+    protected $cTimeout;
 
     /**
      * Connection scheme, like tcp:// or tls://
      * @var string
      */
-    private $scheme;
+    protected $scheme;
 
     /**
      * Event factory.
      * @var EventFactoryImpl
      */
-    private $eventFactory;
+    protected $eventFactory;
 
     /**
      * R/W timeout, in milliseconds.
      * @var integer
      */
-    private $rTimeout;
+    protected $rTimeout;
 
     /**
      * Our stream socket resource.
      * @var resource
      */
-    private $socket;
+    protected $socket;
 
     /**
      * Our stream context resource.
      * @var resource
      */
-    private $context;
+    protected $context;
 
     /**
      * Our event listeners
      * @var IEventListener[]
      */
-    private $eventListeners;
+    protected $eventListeners;
 
     /**
      * The receiving queue.
      * @var IncomingMessage[]
      */
-    private $incomingQueue;
+    protected $incomingQueue;
 
     /**
      * Our current received message. May be incomplete, will be completed
      * eventually with an EOM.
      * @var string
      */
-    private $currentProcessingMessage;
+    protected $currentProcessingMessage;
 
     /**
      * This should not happen. Asterisk may send responses without a
      * corresponding ActionId.
      * @var string
      */
-    private $lastActionId;
+    protected $lastActionId;
 
     /**
      * Event mask to apply on login action.
      * @var string|null
      */
-    private $eventMask;
+    protected $eventMask;
 
     /**
      * Opens a tcp connection to ami.
@@ -270,7 +272,7 @@ class ClientImpl implements IClient
             $resPos = strpos($aMsg, 'Response:');
             $evePos = strpos($aMsg, 'Event:');
             if (($resPos !== false) &&
-              (($resPos < $evePos) || $evePos === false)
+                (($resPos < $evePos) || $evePos === false)
             ) {
                 $response = $this->messageToResponse($aMsg);
                 $this->incomingQueue[$response->getActionId()] = $response;
@@ -343,7 +345,7 @@ class ClientImpl implements IClient
      *
      * @return \PAMI\Message\Response\ResponseMessage
      */
-    private function messageToResponse($msg)
+    protected function messageToResponse($msg)
     {
         $response = new ResponseMessage($msg);
         $actionId = $response->getActionId();
@@ -361,7 +363,7 @@ class ClientImpl implements IClient
      *
      * @return \PAMI\Message\Event\EventMessage
      */
-    private function messageToEvent($msg)
+    protected function messageToEvent($msg)
     {
         return $this->eventFactory->createFromRaw($msg);
     }
